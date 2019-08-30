@@ -116,17 +116,17 @@ if __name__ == "__main__":
     AUG_XML_DIR = os.path.join(ROOT_DIR, "Annotations_aug")
     AUG_IMG_DIR = os.path.join(ROOT_DIR, "JPEGImages_aug")
 
-    AUGLOOP = 2
+    AUGLOOP = 20
 
     boxes_img_aug_list = []
     new_bndbox = []
     new_bndbox_list = []
 
     seq = iaa.Sequential([
-        #iaa.Flipud(0.5),  # vertically flip 20% of all images
+        iaa.Flipud(0.5),  # vertically flip 20% of all images
         #iaa.Fliplr(0.5),
         iaa.Multiply((0.8, 1.3)),  # change brightness, doesn't affect BBs
-        #iaa.GaussianBlur(sigma=(0, 3.0)),  # iaa.GaussianBlur(0.5),
+        iaa.GaussianBlur(sigma=(0, 3.0)),  # iaa.GaussianBlur(0.5),
         #iaa.Affine(
         #    translate_px={"x": 15, "y": 15},
         #    scale=(0.8, 0.95),

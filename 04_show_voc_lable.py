@@ -14,8 +14,8 @@ import cv2
 import xml.etree.ElementTree as ET
 
 ROOT_DIR = '/home/charlie/disk2/dataset/number/data_dataset_voc'
-IMAGE_DIR = os.path.join(ROOT_DIR, "JPEGImages")
-ANNOTATION_DIR = os.path.join(ROOT_DIR, "Annotations")
+IMAGE_DIR = os.path.join(ROOT_DIR, "JPEGImages_aug")
+ANNOTATION_DIR = os.path.join(ROOT_DIR, "Annotations_aug")
 
 
 def filter_for_jpeg(root, files):
