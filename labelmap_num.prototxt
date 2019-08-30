@@ -1,0 +1,50 @@
+item {
+  name: "none_of_the_above"
+  label: 0
+  display_name: "background"
+}
+item {
+  name: "one"
+  label: 1
+  display_name: "one"
+}
+item {
+  name: "two"
+  label: 2
+  display_name: "two"
+}
+item {
+  name: "three"
+  label: 3
+  display_name: "three"
+}
+item {
+  name: "four"
+  label: 4
+  display_name: "four"
+}
+item {
+  name: "five"
+  label: 5
+  display_name: "five"
+}
+item {
+  name: "six"
+  label: 6
+  display_name: "six"
+}
+item {
+  name: "seven"
+  label: 7
+  display_name: "seven"
+}
+item {
+  name: "eight"
+  label: 8
+  display_name: "eight"
+}
+item {
+  name: "nine"
+  label: 9
+  display_name: "nine"
+}
