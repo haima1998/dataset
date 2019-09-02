@@ -110,7 +110,9 @@ def mkdir(path):
 
 if __name__ == "__main__":
 
-    ROOT_DIR = '/home/charlie/disk2/dataset/number/data_dataset_voc_test'
+    #ROOT_DIR = '/home/charlie/disk2/dataset/number/data_dataset_voc_test'
+    ROOT_DIR = '/home/charlie/disk2/dataset/number/data_dataset_voc'
+
     IMG_DIR = os.path.join(ROOT_DIR, "JPEGImages")
     XML_DIR = os.path.join(ROOT_DIR, "Annotations")
     AUG_XML_DIR = os.path.join(ROOT_DIR, "Annotations_aug")
@@ -135,14 +137,14 @@ if __name__ == "__main__":
     new_bndbox_list = []
 
     seq = iaa.Sequential([
-        iaa.Flipud(0.5),  # vertically flip 20% of all images
-        iaa.Fliplr(0.5),
+        #iaa.Flipud(0.5),  # vertically flip 20% of all images
+        #iaa.Fliplr(0.5),
         iaa.Multiply((1.2, 1.5)),  # change brightness, doesn't affect BBs
         iaa.GaussianBlur(sigma=(0, 3.0)),  # iaa.GaussianBlur(0.5),
         iaa.Affine(
             translate_px={"x": 15, "y": 15},
-            scale=(0.8, 0.95),
-            rotate=(-30, 30)
+            scale=(0.5, 0.95),
+            rotate=(-90, 90)
         )  # translate by 40/60px on x/y axis, and scale to 50-70%, affects BBs
     ])
 

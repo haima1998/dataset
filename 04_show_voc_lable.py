@@ -13,7 +13,7 @@ from xml.dom.minidom import parseString
 import cv2
 import xml.etree.ElementTree as ET
 
-ROOT_DIR = '/home/charlie/disk2/dataset/number/data_dataset_voc_test'
+ROOT_DIR = '/home/charlie/disk2/dataset/number/data_dataset_voc'
 #ROOT_DIR = '/home/charlie/disk2/dataset/voc_test'
 
 IMAGE_DIR = os.path.join(ROOT_DIR, "JPEGImages_aug")
