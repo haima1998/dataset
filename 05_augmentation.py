@@ -110,11 +110,23 @@ def mkdir(path):
 
 if __name__ == "__main__":
 
-    ROOT_DIR = '/home/charlie/disk2/dataset/number/data_dataset_voc'
+    ROOT_DIR = '/home/charlie/disk2/dataset/number/data_dataset_voc_test'
     IMG_DIR = os.path.join(ROOT_DIR, "JPEGImages")
     XML_DIR = os.path.join(ROOT_DIR, "Annotations")
     AUG_XML_DIR = os.path.join(ROOT_DIR, "Annotations_aug")
     AUG_IMG_DIR = os.path.join(ROOT_DIR, "JPEGImages_aug")
+
+    try:
+        shutil.rmtree(AUG_XML_DIR)
+    except FileNotFoundError as e:
+        a = 1
+    mkdir(AUG_XML_DIR)
+
+    try:
+        shutil.rmtree(AUG_IMG_DIR)
+    except FileNotFoundError as e:
+        a = 1
+    mkdir(AUG_IMG_DIR)
 
     AUGLOOP = 20
 
@@ -124,14 +136,14 @@ if __name__ == "__main__":
 
     seq = iaa.Sequential([
         iaa.Flipud(0.5),  # vertically flip 20% of all images
-        #iaa.Fliplr(0.5),
-        iaa.Multiply((0.8, 1.3)),  # change brightness, doesn't affect BBs
+        iaa.Fliplr(0.5),
+        iaa.Multiply((1.2, 1.5)),  # change brightness, doesn't affect BBs
         iaa.GaussianBlur(sigma=(0, 3.0)),  # iaa.GaussianBlur(0.5),
-        #iaa.Affine(
-        #    translate_px={"x": 15, "y": 15},
-        #    scale=(0.8, 0.95),
-        #    rotate=(-30, 30)
-        #)  # translate by 40/60px on x/y axis, and scale to 50-70%, affects BBs
+        iaa.Affine(
+            translate_px={"x": 15, "y": 15},
+            scale=(0.8, 0.95),
+            rotate=(-30, 30)
+        )  # translate by 40/60px on x/y axis, and scale to 50-70%, affects BBs
     ])
 
     for root, sub_folders, files in os.walk(XML_DIR):
@@ -139,8 +151,11 @@ if __name__ == "__main__":
         for name in files:
 
             bndbox = read_xml_annotation(XML_DIR, name)
-            shutil.copy(os.path.join(XML_DIR, name), AUG_XML_DIR)
-            shutil.copy(os.path.join(IMG_DIR, name[:-4] + '.jpg'), AUG_IMG_DIR)
+            ori_file_name = name[:-4] +  str("_%02d" %  AUGLOOP )
+            #shutil.copy(os.path.join(XML_DIR, ori_file_name + '.xml'), AUG_XML_DIR)
+            shutil.copy(os.path.join(XML_DIR, name), os.path.join(AUG_XML_DIR, ori_file_name + '.xml'))
+            #shutil.copy(os.path.join(IMG_DIR, ori_file_name + '.jpg'), AUG_IMG_DIR)
+            shutil.copy(os.path.join(IMG_DIR, name[:-4] + '.jpg'), os.path.join(AUG_IMG_DIR, ori_file_name + '.jpg'))
             #print(name)
 
             for epoch in range(AUGLOOP):

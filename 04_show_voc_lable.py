@@ -13,7 +13,9 @@ from xml.dom.minidom import parseString
 import cv2
 import xml.etree.ElementTree as ET
 
-ROOT_DIR = '/home/charlie/disk2/dataset/number/data_dataset_voc'
+ROOT_DIR = '/home/charlie/disk2/dataset/number/data_dataset_voc_test'
+#ROOT_DIR = '/home/charlie/disk2/dataset/voc_test'
+
 IMAGE_DIR = os.path.join(ROOT_DIR, "JPEGImages_aug")
 ANNOTATION_DIR = os.path.join(ROOT_DIR, "Annotations_aug")
 
@@ -84,7 +86,7 @@ def main():
                             if sub.tag == 'name':
                                 lable_str = sub.text
                             for subsub in sub:
-                                print('subsub-tag:', subsub.tag, ',subsub.attrib:', subsub.attrib, ',subsub.text:', subsub.text)
+                                #print('subsub-tag:', subsub.tag, ',subsub.attrib:', subsub.attrib, ',subsub.text:', subsub.text)
                                 if subsub.tag == 'xmin':
                                     x1 = int(subsub.text)
                                 if subsub.tag == 'ymin':
@@ -99,7 +101,7 @@ def main():
                         #print(x2)
                         #print(y2)
                         #print(lable_str)
-                        print('width:%d height:%d lable:%s' % (x2 - x1, y2 - y1 , lable_str))
+                        #print('width:%d height:%d lable:%s' % (x2 - x1, y2 - y1 , lable_str))
                         if x1 > 0:
                             cv2.rectangle(img,(x1,y1),(x2,y2),(255,255,0),3)
                             cv2.putText(img,lable_str,(x1 + 3,y1 - 10),cv2.FONT_HERSHEY_SIMPLEX,1,(0,0,255),1,cv2.LINE_AA)
