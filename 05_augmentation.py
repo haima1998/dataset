@@ -130,7 +130,7 @@ if __name__ == "__main__":
         a = 1
     mkdir(AUG_IMG_DIR)
 
-    AUGLOOP = 20
+    AUGLOOP = 5
 
     boxes_img_aug_list = []
     new_bndbox = []
@@ -139,13 +139,13 @@ if __name__ == "__main__":
     seq = iaa.Sequential([
         #iaa.Flipud(0.5),  # vertically flip 20% of all images
         #iaa.Fliplr(0.5),
-        iaa.Multiply((1.2, 1.5)),  # change brightness, doesn't affect BBs
-        iaa.GaussianBlur(sigma=(0, 3.0)),  # iaa.GaussianBlur(0.5),
-        iaa.Affine(
-            translate_px={"x": 15, "y": 15},
-            scale=(0.5, 0.95),
-            rotate=(-90, 90)
-        )  # translate by 40/60px on x/y axis, and scale to 50-70%, affects BBs
+        iaa.Multiply((0.8, 1.1)),  # change brightness, doesn't affect BBs
+        #iaa.GaussianBlur(sigma=(0, 3.0)),  # iaa.GaussianBlur(0.5),
+        #iaa.Affine(
+        #    translate_px={"x": 15, "y": 15},
+        #    scale=(0.5, 0.95),
+        #    rotate=(-90, 90)
+        #)  # translate by 40/60px on x/y axis, and scale to 50-70%, affects BBs
     ])
 
     for root, sub_folders, files in os.walk(XML_DIR):

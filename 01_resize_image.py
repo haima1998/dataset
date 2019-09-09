@@ -13,7 +13,9 @@ from xml.dom.minidom import parseString
 import cv2
 import xml.etree.ElementTree as ET
 
-ROOT_DIR = '/home/charlie/disk2/dataset/number/lableme/02_resize'
+#ROOT_DIR = '/home/charlie/disk2/dataset/number/lableme/02_resize'
+ROOT_DIR = '/home/charlie/disk2/dataset/number/lableme/04_pad_resize'
+
 IMAGE_DIR = os.path.join(ROOT_DIR, "JPEG")
 
 
@@ -39,9 +41,12 @@ def main():
         for image_filename in image_files:
 
             image = cv2.imread(image_filename)
-            crop_size = (800, 800)
-            img_resize = cv2.resize(image, crop_size)
-            cv2.imwrite(image_filename, img_resize)
+            #crop_size = (800, 800)
+            #crop_size = (2592, 1944)
+
+            #img_resize = cv2.resize(image, crop_size)
+            #cv2.imwrite(image_filename, img_resize)
+            cv2.imwrite(image_filename, image)
 
 if __name__ == "__main__":
     main()
