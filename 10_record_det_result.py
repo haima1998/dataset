@@ -10,10 +10,11 @@ from xml.dom.minidom import parseString
 net_file= 'no_bn.prototxt'  
 caffe_model='no_bn.caffemodel'  
 #test_dir = "/home/charlie/disk2/dataset/number/data_dataset_voc/JPEGImages_ori"
-test_dir = "/home/charlie/disk2/dataset/number/data_dataset_voc/JPEGImages"
+#test_dir = "/home/charlie/disk2/dataset/number/data_dataset_voc/JPEGImages"
+test_dir = "/home/charlie/disk2/dataset/number/test_data_dataset_voc/JPEGImages"
 
-DEST_DIR = '/home/charlie/disk2/dataset/number/data_dataset_voc/det_result/JPEGImages'
-DEST_XML_DIR = '/home/charlie/disk2/dataset/number/data_dataset_voc/det_result/JPEGImages_xml'
+DEST_DIR = '/home/charlie/disk2/dataset/number/test_data_dataset_voc/det_result/all'
+DEST_XML_DIR = '/home/charlie/disk2/dataset/number/test_data_dataset_voc/det_result/all_xml'
 
 #RESIZE = 3
 RESIZE = 1
@@ -107,6 +108,8 @@ def detect(imgfile):
        node_name.text = CLASSES[int(cls[i])]
        node_difficult = SubElement(node_object, 'difficult')
        node_difficult.text = '0'
+       node_difficult = SubElement(node_object, 'conf')
+       node_difficult.text = '%s' % conf[i]
        node_bndbox = SubElement(node_object, 'bndbox')
        node_xmin = SubElement(node_bndbox, 'xmin')
        node_xmin.text = '%s' % box[i][0]

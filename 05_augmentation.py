@@ -130,21 +130,21 @@ if __name__ == "__main__":
         a = 1
     mkdir(AUG_IMG_DIR)
 
-    AUGLOOP = 5
+    AUGLOOP = 10
 
     boxes_img_aug_list = []
     new_bndbox = []
     new_bndbox_list = []
 
     seq = iaa.Sequential([
-        #iaa.Flipud(0.5),  # vertically flip 20% of all images
-        #iaa.Fliplr(0.5),
-        iaa.Multiply((0.8, 1.1)),  # change brightness, doesn't affect BBs
-        #iaa.GaussianBlur(sigma=(0, 3.0)),  # iaa.GaussianBlur(0.5),
+        #iaa.Flipud(0.5),  # vertically flip 20% of all images  zy: no this case, disable it
+        #iaa.Fliplr(0.5),  # zy: no this case,disable it
+        iaa.Multiply((0.8, 1.1)),  # change brightness, doesn't affect BBs. zy: need this one
+        iaa.GaussianBlur(sigma=(0, 1.5)),  # iaa.GaussianBlur(0.5),
         #iaa.Affine(
-        #    translate_px={"x": 15, "y": 15},
-        #    scale=(0.5, 0.95),
-        #    rotate=(-90, 90)
+        #    translate_px={"x": 5, "y": 5},
+        #    scale=(0.95, 0.99),
+        #    rotate=(-2, 2)
         #)  # translate by 40/60px on x/y axis, and scale to 50-70%, affects BBs
     ])
 

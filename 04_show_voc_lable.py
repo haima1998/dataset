@@ -16,8 +16,8 @@ import xml.etree.ElementTree as ET
 ROOT_DIR = '/home/charlie/disk2/dataset/number/data_dataset_voc'
 #ROOT_DIR = '/home/charlie/disk2/dataset/voc_test'
 
-IMAGE_DIR = os.path.join(ROOT_DIR, "JPEGImages")
-ANNOTATION_DIR = os.path.join(ROOT_DIR, "Annotations")
+IMAGE_DIR = os.path.join(ROOT_DIR, "JPEGImages_aug")
+ANNOTATION_DIR = os.path.join(ROOT_DIR, "Annotations_aug")
 
 
 def filter_for_jpeg(root, files):
@@ -41,6 +41,29 @@ def filter_for_annotations(root, files, image_filename):
 
     return files
 
+def get_short_name(obj_type):
+    short_name = "UNK"
+    if obj_type == "zero":
+        short_name = "0"
+    if obj_type == "one":
+        short_name = "1"
+    if obj_type == "two":
+        short_name = "2"
+    if obj_type == "three":
+        short_name = "3"
+    if obj_type == "four":
+        short_name = "4"
+    if obj_type == "five":
+        short_name = "5"
+    if obj_type == "six":
+        short_name = "6"
+    if obj_type == "seven":
+        short_name = "7"
+    if obj_type == "eight":
+        short_name = "8"
+    if obj_type == "nine":
+        short_name = "9"
+    return short_name
 
 def main():
 
@@ -103,8 +126,8 @@ def main():
                         #print(lable_str)
                         #print('width:%d height:%d lable:%s' % (x2 - x1, y2 - y1 , lable_str))
                         if x1 > 0:
-                            cv2.rectangle(img,(x1,y1),(x2,y2),(255,255,0),3)
-                            cv2.putText(img,lable_str,(x1 + 3,y1 - 10),cv2.FONT_HERSHEY_SIMPLEX,1,(0,0,255),1,cv2.LINE_AA)
+                            cv2.rectangle(img,(x1,y1),(x2,y2),(255,255,0),2)
+                            cv2.putText(img,get_short_name(lable_str),(x1 + 3,y1 - 10),cv2.FONT_HERSHEY_SIMPLEX,1,(0,0,0),1,cv2.LINE_AA)
 
                     cv2.namedWindow(annotation_filename, 0);
                     cv2.resizeWindow(annotation_filename, 1200, 1000);
