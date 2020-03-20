@@ -4,12 +4,16 @@
    2) 一种途经是用户使用过程中上传，这类图片需要先按比例resize 再上传，控制上传的大小，控制在最长边800以内。
 
 2.按比例resize图片，控制最长边在800以内。
+  python 01_resize_image.py
+  修改源图片路经:/home/charlie/disk2/dataset/witch/01orin_pic/20190929_train
+    目标图片路经:/home/charlie/disk2/dataset/witch/lableme/20190929_train/JPEG
 
 
 3.采用lableme 标注数据。得到JPEG 和 lable 目录的数据.
 
 4. 将lableme 格式的jason标准格式转换为voc的xml格式.
    输出目录/home/charlie/disk2/dataset/number/data_dataset_voc
+   备注:如果需要修改输出类型修改:/home/charlie/disk2/dataset/number/labels.txt
    python 02_labelme2voc.py
    
 5. 可视化voc数据,检查标注和转换是否有问题.
@@ -39,3 +43,23 @@
    source: "trainval_lmdb_num/"   数据文件地址
    
    修改MobileNetSSD_test.prototxt文件的batch_size: 1
+
+
+
+train and test model
+-------------------------------------------------------------------
+cd /home/charlie/disk1/code/opensouce/caffe/caffe/examples/MobileNet-SSD
+1. train model 
+./train_num.sh
+
+2. test model
+./test_num.sh
+
+3. merge model:
+./zymerge.sh
+
+4. evaluate model
+python 10_record_det_result.py
+
+cd /home/charlie/disk1/code/mygithub/dataset 
+python 11_evaluate_det_lable.py

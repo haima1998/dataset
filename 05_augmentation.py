@@ -111,12 +111,15 @@ def mkdir(path):
 if __name__ == "__main__":
 
     #ROOT_DIR = '/home/charlie/disk2/dataset/number/data_dataset_voc_test'
-    ROOT_DIR = '/home/charlie/disk2/dataset/number/data_dataset_voc'
+    # ROOT_DIR = '/home/charlie/disk2/dataset/witch/test_data_dataset_voc'
+    ROOT_DIR = '/home/charlie/disk2/dataset/number2/data_dataset_voc'
 
     IMG_DIR = os.path.join(ROOT_DIR, "JPEGImages")
     XML_DIR = os.path.join(ROOT_DIR, "Annotations")
     AUG_XML_DIR = os.path.join(ROOT_DIR, "Annotations_aug")
     AUG_IMG_DIR = os.path.join(ROOT_DIR, "JPEGImages_aug")
+    AUG_XML_DIR_ERROR = os.path.join(ROOT_DIR, "Annotations_error")
+    AUG_IMG_DIR_ERROR = os.path.join(ROOT_DIR, "JPEGImages_error")
 
     try:
         shutil.rmtree(AUG_XML_DIR)
@@ -130,7 +133,7 @@ if __name__ == "__main__":
         a = 1
     mkdir(AUG_IMG_DIR)
 
-    AUGLOOP = 10
+    AUGLOOP = 30
 
     boxes_img_aug_list = []
     new_bndbox = []
@@ -141,11 +144,11 @@ if __name__ == "__main__":
         #iaa.Fliplr(0.5),  # zy: no this case,disable it
         iaa.Multiply((0.8, 1.1)),  # change brightness, doesn't affect BBs. zy: need this one
         iaa.GaussianBlur(sigma=(0, 1.5)),  # iaa.GaussianBlur(0.5),
-        #iaa.Affine(
-        #    translate_px={"x": 5, "y": 5},
-        #    scale=(0.95, 0.99),
-        #    rotate=(-2, 2)
-        #)  # translate by 40/60px on x/y axis, and scale to 50-70%, affects BBs
+        iaa.Affine(
+            #translate_px={"x": 5, "y": 5},
+            #scale=(0.95, 0.99),
+            rotate=(-175, 175)
+        )  # translate by 40/60px on x/y axis, and scale to 50-70%, affects BBs
     ])
 
     for root, sub_folders, files in os.walk(XML_DIR):
@@ -165,6 +168,7 @@ if __name__ == "__main__":
                 img = Image.open(os.path.join(IMG_DIR, name[:-4] + '.jpg'))
                 # sp = img.size
                 img = np.asarray(img)
+                outOfBounder = False
                 for i in range(len(bndbox)):
                     bbs = ia.BoundingBoxesOnImage([
                         ia.BoundingBox(x1=bndbox[i][0], y1=bndbox[i][1], x2=bndbox[i][2], y2=bndbox[i][3]),
@@ -185,6 +189,13 @@ if __name__ == "__main__":
                     if n_x1 >= n_x2 or n_y1 >= n_y2:
                         print('error', name)
                     new_bndbox_list.append([n_x1, n_y1, n_x2, n_y2])
+
+                    if bbs_aug.bounding_boxes[0].x1 < 0 or bbs_aug.bounding_boxes[0].x1 > img.shape[1] or bbs_aug.bounding_boxes[0].x2 < 0 or bbs_aug.bounding_boxes[0].x2 > img.shape[1]:
+                        outOfBounder = True
+
+                    if bbs_aug.bounding_boxes[0].y1 < 0 or bbs_aug.bounding_boxes[0].y1 > img.shape[0] or bbs_aug.bounding_boxes[0].y2 < 0 or bbs_aug.bounding_boxes[0].y2 > img.shape[0]:
+                        outOfBounder = True
+
                 image_aug = seq_det.augment_images([img])[0]
                 #print(' file: %s , name:%s' % (files,name[:-4]))
 
@@ -193,13 +204,21 @@ if __name__ == "__main__":
                 (filename, extension) = os.path.splitext(name)
                 aug_file_name = filename + str("_%02d" %  epoch )
 
-                path = os.path.join(AUG_IMG_DIR, aug_file_name + '.jpg')
+                if outOfBounder == True:
+                    path = os.path.join(AUG_IMG_DIR_ERROR, aug_file_name + '.jpg')
+                else:
+                    path = os.path.join(AUG_IMG_DIR, aug_file_name + '.jpg')
+
                 print(path)
                 print(aug_file_name)
                 image_auged = bbs.draw_on_image(image_aug, thickness=0)
                 Image.fromarray(image_auged).save(path)
 
-                change_xml_list_annotation(XML_DIR, name[:-4], new_bndbox_list, AUG_XML_DIR,
+                if outOfBounder == True:
+                    change_xml_list_annotation(XML_DIR, name[:-4], new_bndbox_list, AUG_XML_DIR_ERROR,
+                                               aug_file_name)
+                else:
+                    change_xml_list_annotation(XML_DIR, name[:-4], new_bndbox_list, AUG_XML_DIR,
                                                                                aug_file_name)
                 #print(str("%06d" % (len(files) + int(name[:-4]) + epoch * 250)) + '.jpg')
                 new_bndbox_list = []

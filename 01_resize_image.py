@@ -14,15 +14,15 @@ import cv2
 import xml.etree.ElementTree as ET
 from PIL import Image
 
-ROOT_DIR = '/home/charlie/disk2/dataset/number/01orin_pic'
-DEST_DIR = '/home/charlie/disk2/dataset/number/lableme/05_pad_0910/JPEG'
-IMAGE_DIR = os.path.join(ROOT_DIR, "201910_pad_pad")
+ROOT_DIR = '/home/charlie/disk2/dataset/number2/01orin_pic'
+DEST_DIR = '/home/charlie/disk2/dataset/number2/lableme/20200319_test/JPEG'
+IMAGE_DIR = os.path.join(ROOT_DIR, "20200319_test")
 
-RESIZE = 3
-CROP_SIZE = 160
+RESIZE = 1.3
+CROP_SIZE = 130
 
 def filter_for_jpeg(root, files):
-    file_types = ['*.jpeg', '*.jpg']
+    file_types = ['*.jpeg', '*.jpg','*.JPG']
     file_types = r'|'.join([fnmatch.translate(x) for x in file_types])
     files = [os.path.join(root, f) for f in files]
     files = [f for f in files if re.match(file_types, f)]
@@ -44,14 +44,20 @@ def main():
         for image_filename in image_files:
 
             (filepath, tempfilename) = os.path.split(image_filename)
-            save_file_name = os.path.join(DEST_DIR, tempfilename)
+            (filename, extension) = os.path.splitext(tempfilename)
+
+            new_file_name = filename + '.jpg'
+            save_file_name = os.path.join(DEST_DIR, new_file_name)
+            print(new_file_name)
 
             #A .read source image file
             image = cv2.imread(image_filename)
 
             #B. resize
             size = image.shape
-            img_dst = cv2.resize(image, (size[1] / RESIZE, size[0] / RESIZE))
+            resize_width = size[1] / RESIZE
+            resize_height = size[0] / RESIZE
+            img_dst = cv2.resize(image, (int(resize_width), int(resize_height)))
 
             #C. crop top image
             size_resize = img_dst.shape

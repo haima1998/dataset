@@ -10,11 +10,13 @@ from xml.dom.minidom import parseString
 net_file= 'no_bn.prototxt'  
 caffe_model='no_bn.caffemodel'  
 #test_dir = "/home/charlie/disk2/dataset/number/data_dataset_voc/JPEGImages_ori"
-#test_dir = "/home/charlie/disk2/dataset/number/data_dataset_voc/JPEGImages"
-test_dir = "/home/charlie/disk2/dataset/number/test_data_dataset_voc/JPEGImages"
+test_dir = "/home/charlie/disk2/dataset/number/data_dataset_voc/JPEGImages"
+#test_dir = "/home/charlie/disk2/dataset/number/test_data_dataset_voc/JPEGImages"
 
-DEST_DIR = '/home/charlie/disk2/dataset/number/test_data_dataset_voc/det_result/all'
-DEST_XML_DIR = '/home/charlie/disk2/dataset/number/test_data_dataset_voc/det_result/all_xml'
+#DEST_DIR = '/home/charlie/disk2/dataset/number/test_data_dataset_voc/det_result/v4/all'
+#DEST_XML_DIR = '/home/charlie/disk2/dataset/number/test_data_dataset_voc/det_result/v4/all_xml'
+DEST_DIR = '/home/charlie/disk2/dataset/number/data_dataset_voc/det_result/all'
+DEST_XML_DIR = '/home/charlie/disk2/dataset/number/data_dataset_voc/det_result/all_xml'
 
 #RESIZE = 3
 RESIZE = 1

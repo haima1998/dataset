@@ -7,14 +7,15 @@ import json
 import xml.etree.ElementTree as ET
 
 
-#ROOT_DIR = '/home/charlie/disk2/dataset/number/data_dataset_voc'
-ROOT_DIR = '/home/charlie/disk2/dataset/number/test_data_dataset_voc'
+ROOT_DIR = '/home/charlie/disk2/dataset/number/data_dataset_voc'
+#ROOT_DIR = '/home/charlie/disk2/dataset/number/test_data_dataset_voc'
 
 detect_result_dir = os.path.join(ROOT_DIR, "det_result/all_xml/")
 #detect_result_dir = os.path.join(ROOT_DIR, "result/02ssd_test_all/")
 
 #test_files = os.path.join(ROOT_DIR, "ImageSets/Main/trainval.txt")
-test_files = os.path.join(ROOT_DIR, "ImageSets/Main/all.txt")
+test_files = os.path.join(ROOT_DIR, "ImageSets/Main/test.txt")
+#test_files = os.path.join(ROOT_DIR, "ImageSets/Main/all.txt")
 
 lable_dir = os.path.join(ROOT_DIR, "Annotations/")
 image_dir = os.path.join(ROOT_DIR, "JPEGImages/")

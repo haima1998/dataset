@@ -13,11 +13,12 @@ from xml.dom.minidom import parseString
 import cv2
 import xml.etree.ElementTree as ET
 
-ROOT_DIR = '/home/charlie/disk2/dataset/number/data_dataset_voc'
+ROOT_DIR = '/home/charlie/disk2/dataset/number2/data_dataset_voc'
+# ROOT_DIR = '/home/charlie/disk2/dataset/witch/data_dataset_voc'
 #ROOT_DIR = '/home/charlie/disk2/dataset/voc_test'
 
-IMAGE_DIR = os.path.join(ROOT_DIR, "JPEGImages_aug")
-ANNOTATION_DIR = os.path.join(ROOT_DIR, "Annotations_aug")
+IMAGE_DIR = os.path.join(ROOT_DIR, "JPEGImages_error")
+ANNOTATION_DIR = os.path.join(ROOT_DIR, "Annotations_error")
 
 
 def filter_for_jpeg(root, files):
@@ -65,11 +66,13 @@ def get_short_name(obj_type):
         short_name = "9"
     return short_name
 
+
 def main():
 
     # filter for jpeg images
     print(IMAGE_DIR)
     for root, _, files in os.walk(IMAGE_DIR):
+        files.sort()
         print(files)
         image_files = filter_for_jpeg(root, files)
         print image_files
@@ -97,13 +100,14 @@ def main():
 
                     tree = ET.parse(annotation_filename)
                     root = tree.getroot()
+                    lable_str = ''
                     for child in root:
                         #print('child-tag:', child.tag, ',child.attrib', child.attrib, ',child.text:', child.text)
                         x1 = 0
                         y1 = 0
                         x2 = 1
                         y2 = 1
-                        lable_str = ''
+
                         for sub in child:
                             #print('sub-tag:', sub.tag, ',sub.attrib:', sub.attrib, ',sub.text:', sub.text)
                             if sub.tag == 'name':
@@ -123,11 +127,16 @@ def main():
                         #print(y1)
                         #print(x2)
                         #print(y2)
-                        #print(lable_str)
+                        print(lable_str)
+
                         #print('width:%d height:%d lable:%s' % (x2 - x1, y2 - y1 , lable_str))
                         if x1 > 0:
                             cv2.rectangle(img,(x1,y1),(x2,y2),(255,255,0),2)
-                            cv2.putText(img,get_short_name(lable_str),(x1 + 3,y1 - 10),cv2.FONT_HERSHEY_SIMPLEX,1,(0,0,0),1,cv2.LINE_AA)
+                            #cv2.putText(img,get_short_name(lable_str),(x1 + 3,y1 - 10),cv2.FONT_HERSHEY_SIMPLEX,1,(0,0,0),1,cv2.LINE_AA)
+                            cv2.putText(img,lable_str,(x1 + 3,y1 - 10),cv2.FONT_HERSHEY_SIMPLEX,1,(0,0,0),1,cv2.LINE_AA)
+
+                    # if lable_str != 'nine':
+                    #     continue
 
                     cv2.namedWindow(annotation_filename, 0);
                     cv2.resizeWindow(annotation_filename, 1200, 1000);
@@ -138,8 +147,10 @@ def main():
                         os._exit(0)
                         break;
                     elif k == -1:
+                        cv2.destroyAllWindows()
                         continue
                     else:
+                        cv2.destroyAllWindows()
                         print k
 
 if __name__ == "__main__":
