@@ -15,11 +15,12 @@ import xml.etree.ElementTree as ET
 from PIL import Image
 
 ROOT_DIR = '/home/charlie/disk2/dataset/number2/01orin_pic'
-DEST_DIR = '/home/charlie/disk2/dataset/number2/lableme/20200319_test/JPEG'
-IMAGE_DIR = os.path.join(ROOT_DIR, "20200319_test")
+DEST_DIR = '/home/charlie/disk2/dataset/number2/lableme/20200402_train/JPEG'
+IMAGE_DIR = os.path.join(ROOT_DIR, "20200402_train")
 
 RESIZE = 1.3
-CROP_SIZE = 130
+#CROP_SIZE = 130
+CROP_SIZE = 0
 
 def filter_for_jpeg(root, files):
     file_types = ['*.jpeg', '*.jpg','*.JPG']

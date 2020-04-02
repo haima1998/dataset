@@ -17,8 +17,8 @@ ROOT_DIR = '/home/charlie/disk2/dataset/number2/data_dataset_voc'
 # ROOT_DIR = '/home/charlie/disk2/dataset/witch/data_dataset_voc'
 #ROOT_DIR = '/home/charlie/disk2/dataset/voc_test'
 
-IMAGE_DIR = os.path.join(ROOT_DIR, "JPEGImages_error")
-ANNOTATION_DIR = os.path.join(ROOT_DIR, "Annotations_error")
+IMAGE_DIR = os.path.join(ROOT_DIR, "JPEGImages_aug")
+ANNOTATION_DIR = os.path.join(ROOT_DIR, "Annotations_aug")
 
 
 def filter_for_jpeg(root, files):
