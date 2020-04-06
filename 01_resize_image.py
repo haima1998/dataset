@@ -13,10 +13,11 @@ from xml.dom.minidom import parseString
 import cv2
 import xml.etree.ElementTree as ET
 from PIL import Image
+import time
 
-ROOT_DIR = '/home/charlie/disk2/dataset/number2/01orin_pic'
-DEST_DIR = '/home/charlie/disk2/dataset/number2/lableme/20200402_train/JPEG'
-IMAGE_DIR = os.path.join(ROOT_DIR, "20200402_train")
+ROOT_DIR = '/home/charlie/disk2/dataset/magic/01orin_pic'
+DEST_DIR = '/home/charlie/disk2/dataset/magic/lableme/20200406_train/JPEG'
+IMAGE_DIR = os.path.join(ROOT_DIR, "20200406_train")
 
 RESIZE = 1.3
 #CROP_SIZE = 130
@@ -47,7 +48,10 @@ def main():
             (filepath, tempfilename) = os.path.split(image_filename)
             (filename, extension) = os.path.splitext(tempfilename)
 
-            new_file_name = filename + '.jpg'
+            current_time = time.strftime("%Y_%m_%d_%H_%M_", time.localtime())
+            # print(current_time)
+            # new_file_name = filename + '.jpg'
+            new_file_name = current_time + filename + '.jpg'
             save_file_name = os.path.join(DEST_DIR, new_file_name)
             print(new_file_name)
 
