@@ -27,20 +27,23 @@ def main():
             input_file_name = sys.argv[3]
             output_dir = sys.argv[4]
 
+            print(input_file_name)
+
             image_filename = input_file_name
 
             (filepath, tempfilename) = os.path.split(image_filename)
             (filename, extension) = os.path.splitext(tempfilename)
 
-            new_file_name = filename + '_' + str(output_x) + '_' + str(output_y) + '.jpg'
+            new_file_name = filename + '_' + str(output_x) + '_' + str(output_y) + '.png'
             save_file_name = os.path.join(output_dir, new_file_name)
             print(new_file_name)
 
             #A .read source image file
-            image = cv2.imread(image_filename)
+            image = cv2.imread(image_filename,cv2.IMREAD_UNCHANGED)
 
             #B. resize
             img_dst = cv2.resize(image, (output_x, output_y))
+            print(img_dst.shape)
 
             #D. save result image to file
             cv2.imwrite(save_file_name, img_dst)
