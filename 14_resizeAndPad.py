@@ -18,8 +18,9 @@ import sys
 import cv2 as cv
 import numpy as np
 
-# DEST_DIR = '/home/charlie/Pictures/output'
-# INPUT_IMAGE_FILE = '/home/charlie/Pictures/appicon_1024.png'
+ROOT_DIR = '/home/charlie/Pictures'
+IMAGE_DIR = os.path.join(ROOT_DIR, "03fruit")
+OUTPUT_DIR = os.path.join(IMAGE_DIR, "output")
 
 def resizeAndPad(img, padColor=0):
 
@@ -37,20 +38,41 @@ def resizeAndPad(img, padColor=0):
     else:
         return img
 
+
+def filter_for_jpeg(root, files):
+    file_types = ['*.jpeg', '*.jpg']
+    file_types = r'|'.join([fnmatch.translate(x) for x in file_types])
+    files = [os.path.join(root, f) for f in files]
+    files = [f for f in files if re.match(file_types, f)]
+
+    return files
+
 def main():
-    input_file_name = sys.argv[1]
-    output_file_name = sys.argv[2]
-    print(input_file_name)
-    print(output_file_name)
+    print(IMAGE_DIR)
+    # print(OUTPUT_DIR)
 
-    v_img = cv2.imread(input_file_name) # vertical image
+    for root, _, files in os.walk(IMAGE_DIR):
+        files.sort()
+        image_files = filter_for_jpeg(root, files)
 
-    scaled_v_img = resizeAndPad(v_img, 255)
+        # go through each image
+        for image_filename in image_files:
+            print(image_filename)
+            (filepath, tempfilename) = os.path.split(image_filename)
+            output_file_name = os.path.join(OUTPUT_DIR, tempfilename)
 
-    out_h, out_w = scaled_v_img.shape[:2]
-    print('out image width:%d height:%d ' % (out_w,out_h))
+            #A. open one image file
+            v_img = cv2.imread(image_filename)
 
-    cv2.imwrite(output_file_name, scaled_v_img)
+            #B. resize and pad image
+            scaled_v_img = resizeAndPad(v_img, 255)
+            out_h, out_w = scaled_v_img.shape[:2]
+            print('out image width:%d height:%d ' % (out_w,out_h))
+
+            #C. write resize and pad image to output file
+            cv2.imwrite(output_file_name, scaled_v_img)
+            print(output_file_name)
+
 
 if __name__ == "__main__":
     main()
